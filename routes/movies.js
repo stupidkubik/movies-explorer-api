@@ -13,7 +13,7 @@ router.post('/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().min(2).max(30).required(),
     director: Joi.string().min(2).max(30).required(),
-    duration: Joi.Number().required(),
+    duration: Joi.number().required(),
     year: Joi.string().min(2).max(30).required(),
     description: Joi.string().min(2).max(30).required(),
     image: Joi.string().required().pattern(REGEX_URL),

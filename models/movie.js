@@ -32,7 +32,7 @@ const movieSchema = new mongoose.Schema({
       message: 'Введите действительный URL',
     },
   },
-  trailerLink: {
+  trailer: {
     type: String,
     required: [true, 'Поле не может быть пустым'],
     validate: {
