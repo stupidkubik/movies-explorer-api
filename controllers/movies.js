@@ -1,0 +1,117 @@
+const mongoose = require('mongoose');
+const {
+  HTTP_STATUS_OK,
+  HTTP_STATUS_CREATED,
+} = require('http2').constants;
+
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require('../errors/ForbiddenError');
+const movieModel = require('../models/movie');
+
+const createMovie = (req, res, next) => {
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    thumbnail,
+    nameRU,
+    nameEN,
+    movieId,
+  } = req.body;
+  return movieModel
+    .create({
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailer,
+      thumbnail,
+      nameRU,
+      nameEN,
+      movieId,
+      owner: req.user._id,
+    })
+    .then((movie) => movieModel.findById(movie._id)
+      .populate('owner')
+      .then(((newMovie) => res.status(HTTP_STATUS_CREATED).send(newMovie)))
+      .catch(() => next(new NotFoundError('Movie not found'))))
+    .catch((err) => {
+      if (err instanceof mongoose.Error.ValidationError) {
+        return next(new BadRequestError(err.message));
+      }
+      return next(err);
+    });
+};
+
+const getMovies = (req, res, next) => movieModel.find({})
+  .populate(['owner'])
+  .then((data) => res.status(HTTP_STATUS_OK).send(data))
+  .catch(next);
+
+const deleteMovie = (req, res, next) => movieModel
+  .findById(req.params.movieId)
+  .then((movie) => {
+    if (!movie) throw new NotFoundError('Movie not found');
+    if (!movie.owner.equals(req.user._id)) throw new ForbiddenError('Invalid user');
+
+    movieModel.deleteOne(movie)
+      .orFail()
+      .then(() => res.status(HTTP_STATUS_OK).send({ message: 'Movie is deleted' }))
+      .catch((err) => {
+        if (err instanceof mongoose.Error.DocumentNotFoundError) {
+          return next(new NotFoundError('Movie not found'));
+        }
+        if (err instanceof mongoose.Error.CastError) {
+          return next(new BadRequestError('Invalid movie ID'));
+        }
+        return next(err);
+      });
+  })
+  .catch(next);
+
+// const putLikeById = (req, res, next) => movieModel
+//   .findByIdAndUpdate(
+//     req.params.movieId,
+//     { $addToSet: { likes: req.user._id } },
+//     { new: true },
+//   )
+//   .orFail()
+//   .populate(['owner', 'likes'])
+//   .then((movie) => res.status(HTTP_STATUS_OK).send(movie))
+//   .catch((err) => {
+//     if (err instanceof mongoose.Error.DocumentNotFoundError) {
+//       return next(new NotFoundError('Movie not found'));
+//     }
+//     return next(err);
+//   });
+
+// const deleteLikeById = (req, res, next) => movieModel
+//   .findByIdAndUpdate(
+//     req.params.movieId,
+//     { $pull: { likes: req.user._id } },
+//     { new: true },
+//   )
+//   .orFail()
+//   .populate(['owner', 'likes'])
+//   .then((movie) => res.status(HTTP_STATUS_OK).send(movie))
+//   .catch((err) => {
+//     if (err instanceof mongoose.Error.DocumentNotFoundError) {
+//       return next(new NotFoundError('Movie not found'));
+//     }
+//     return next(err);
+//   });
+
+module.exports = {
+  createMovie,
+  getMovies,
+  deleteMovie,
+  // putLikeById,
+  // deleteLikeById,
+};
