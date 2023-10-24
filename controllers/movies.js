@@ -17,12 +17,13 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     thumbnail,
     nameRU,
     nameEN,
     movieId,
   } = req.body;
+
   return movieModel
     .create({
       country,
@@ -31,7 +32,7 @@ const createMovie = (req, res, next) => {
       year,
       description,
       image,
-      trailer,
+      trailerLink,
       thumbnail,
       nameRU,
       nameEN,
@@ -56,7 +57,7 @@ const getMovies = (req, res, next) => movieModel.find({})
   .catch(next);
 
 const deleteMovie = (req, res, next) => movieModel
-  .findById(req.params.movieId)
+  .findById(req.params.movie_id)
   .then((movie) => {
     if (!movie) throw new NotFoundError('Movie not found');
     if (!movie.owner.equals(req.user._id)) throw new ForbiddenError('Invalid user');
@@ -76,42 +77,8 @@ const deleteMovie = (req, res, next) => movieModel
   })
   .catch(next);
 
-// const putLikeById = (req, res, next) => movieModel
-//   .findByIdAndUpdate(
-//     req.params.movieId,
-//     { $addToSet: { likes: req.user._id } },
-//     { new: true },
-//   )
-//   .orFail()
-//   .populate(['owner', 'likes'])
-//   .then((movie) => res.status(HTTP_STATUS_OK).send(movie))
-//   .catch((err) => {
-//     if (err instanceof mongoose.Error.DocumentNotFoundError) {
-//       return next(new NotFoundError('Movie not found'));
-//     }
-//     return next(err);
-//   });
-
-// const deleteLikeById = (req, res, next) => movieModel
-//   .findByIdAndUpdate(
-//     req.params.movieId,
-//     { $pull: { likes: req.user._id } },
-//     { new: true },
-//   )
-//   .orFail()
-//   .populate(['owner', 'likes'])
-//   .then((movie) => res.status(HTTP_STATUS_OK).send(movie))
-//   .catch((err) => {
-//     if (err instanceof mongoose.Error.DocumentNotFoundError) {
-//       return next(new NotFoundError('Movie not found'));
-//     }
-//     return next(err);
-//   });
-
 module.exports = {
   createMovie,
   getMovies,
   deleteMovie,
-  // putLikeById,
-  // deleteLikeById,
 };

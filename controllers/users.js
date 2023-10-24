@@ -89,42 +89,9 @@ const updateUser = (req, res, next) => {
     });
 };
 
-// const getUsers = (req, res, next) => userModel.find({})
-//   .then((data) => res.status(HTTP_STATUS_OK).send(data))
-//   .catch(next);
-
-// const getUserById = (req, res, next) => userModel
-//   .findById(req.params.userID)
-//   .then((data) => {
-//     if (!data) throw new NotFoundError('User not found');
-//     return res.status(HTTP_STATUS_OK).send(data);
-//   })
-//   .catch(next);
-
-// const updateUserAvatarById = (req, res, next) => userModel
-//   .findByIdAndUpdate(
-//     req.user._id,
-//     { avatar: req.body.avatar },
-//     { new: 'true', runValidators: true },
-//   )
-//   .orFail()
-//   .then((user) => res.status(HTTP_STATUS_OK).send(user))
-//   .catch((err) => {
-//     if (err instanceof mongoose.Error.DocumentNotFoundError) {
-//       return next(new NotFoundError('User not found'));
-//     }
-//     if (err instanceof mongoose.Error.ValidationError) {
-//       return next(new BadRequestError(err.message));
-//     }
-//     return next(err);
-//   });
-
 module.exports = {
   createUser,
   LoginUser,
   getSelf,
   updateUser,
-  // getUsers,
-  // getUserById,
-  // updateUserAvatarById,
 };

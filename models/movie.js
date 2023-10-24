@@ -32,7 +32,7 @@ const movieSchema = new mongoose.Schema({
       message: 'Введите действительный URL',
     },
   },
-  trailer: {
+  trailerLink: {
     type: String,
     required: [true, 'Поле не может быть пустым'],
     validate: {
@@ -57,7 +57,6 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  // id фильма, который содержится в ответе сервиса MoviesExplorer
   movieId: {
     type: Number,
     required: [true, 'Поле не может быть пустым'],

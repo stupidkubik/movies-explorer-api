@@ -11,36 +11,24 @@ router.get('/', getMovies);
 
 router.post('/', celebrate({
   body: Joi.object().keys({
-    country: Joi.string().min(2).max(30).required(),
-    director: Joi.string().min(2).max(30).required(),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
     duration: Joi.number().required(),
-    year: Joi.string().min(2).max(30).required(),
-    description: Joi.string().min(2).max(30).required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
     image: Joi.string().required().pattern(REGEX_URL),
-    trailer: Joi.string().required().pattern(REGEX_URL),
+    trailerLink: Joi.string().required().pattern(REGEX_URL),
     thumbnail: Joi.string().required().pattern(REGEX_URL),
-    nameRU: Joi.string().min(2).max(30).required(),
-    nameEN: Joi.string().min(2).max(30).required(),
-    movieId: Joi.string().length(24).hex().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
+    movieId: Joi.number().required(),
   }),
 }), createMovie);
 
-router.delete('/:movieId', celebrate({
+router.delete('/:movie_id', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex().required(),
+    movie_id: Joi.string().length(24).hex().required(),
   }),
 }), deleteMovie);
-
-// router.put('/:cardId/likes', celebrate({
-//   params: Joi.object().keys({
-//     cardId: Joi.string().length(24).hex().required(),
-//   }),
-// }), putLikeById);
-
-// router.delete('/:cardId/likes', celebrate({
-//   params: Joi.object().keys({
-//     cardId: Joi.string().length(24).hex().required(),
-//   }),
-// }), deleteLikeById);
 
 module.exports = router;
