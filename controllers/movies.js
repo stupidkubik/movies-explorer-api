@@ -8,7 +8,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
 const movieModel = require('../models/movie');
-
+// Функция создания нового фильма
 const createMovie = (req, res, next) => {
   const {
     country,
@@ -50,12 +50,12 @@ const createMovie = (req, res, next) => {
       return next(err);
     });
 };
-
+// Функция передачи списка фильмов
 const getMovies = (req, res, next) => movieModel.find({})
   .populate(['owner'])
   .then((data) => res.status(HTTP_STATUS_OK).send(data))
   .catch(next);
-
+// Функция удаления фильма по id из БД
 const deleteMovie = (req, res, next) => movieModel
   .findById(req.params.movie_id)
   .then((movie) => {

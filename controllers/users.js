@@ -17,7 +17,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 const userModel = require('../models/user');
-
+// Функция создания нового юзера
 const createUser = (req, res, next) => {
   const {
     name, email, password,
@@ -42,7 +42,7 @@ const createUser = (req, res, next) => {
       }))
     .catch(next);
 };
-
+// Функция авторизации юзера
 const LoginUser = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -62,11 +62,11 @@ const LoginUser = (req, res, next) => {
       return next(err);
     });
 };
-
+// Функция передачи даных юзера
 const getSelf = (req, res, next) => userModel.findById(req.user._id)
   .then((data) => res.status(HTTP_STATUS_OK).send(data))
   .catch(next);
-
+// Функция обновления данных юзера
 const updateUser = (req, res, next) => {
   const { name, email } = req.body;
 

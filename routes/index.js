@@ -9,6 +9,7 @@ const NotFoundError = require('../errors/NotFoundError');
 
 router.use('/signup', signupRouter);
 router.use('/signin', signinRouter);
+// Защищием роуты авторизацией
 router.use(auth);
 router.use('/users', userRouter);
 router.use('/movies', movieRouter);

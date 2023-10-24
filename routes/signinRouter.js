@@ -3,7 +3,7 @@ const { celebrate, Joi } = require('celebrate');
 
 const { LoginUser } = require('../controllers/users');
 const { REGEX_EMAIL } = require('../utils/regex');
-
+// Проверяем поля и отправляем юзера на авторизацию
 router.post('/', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().pattern(REGEX_EMAIL),

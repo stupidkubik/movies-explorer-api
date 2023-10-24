@@ -6,9 +6,9 @@ const {
   deleteMovie,
 } = require('../controllers/movies');
 const { REGEX_URL } = require('../utils/regex');
-
+// Отправляем список всех добавленных фильмов
 router.get('/', getMovies);
-
+// Сохраняем новый фильм
 router.post('/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
@@ -24,7 +24,7 @@ router.post('/', celebrate({
     movieId: Joi.number().required(),
   }),
 }), createMovie);
-
+// Удаляем фильм по id из БД
 router.delete('/:movie_id', celebrate({
   params: Joi.object().keys({
     movie_id: Joi.string().length(24).hex().required(),

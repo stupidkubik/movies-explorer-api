@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
 }, { versionKey: false });
-
+// Хешируем пароль юзера
 userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
   return this.findOne({ email })
     .select('+password')

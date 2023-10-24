@@ -2,20 +2,20 @@ const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 require('dotenv').config();
-
+// Константы окружения
 const { JWT_SECRET, NODE_ENV } = process.env;
 const DEV_KEY = 'string';
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
-
+  // Проверяем наличие токена
   if (!authorization || !authorization.startsWith('Bearer ')) {
     throw new UnauthorizedError('Problem with authorization');
   }
 
   const token = authorization.replace('Bearer ', '');
   let payload;
-
+  // Проверяем токен и тип среды окружения
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : DEV_KEY);
   } catch (err) {

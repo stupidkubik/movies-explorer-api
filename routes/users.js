@@ -6,9 +6,9 @@ const {
   getSelf,
   updateUser,
 } = require('../controllers/users');
-
+// Отправляем текущие данные юзера
 router.get('/me', getSelf);
-
+// Обновляем данные юзера
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
