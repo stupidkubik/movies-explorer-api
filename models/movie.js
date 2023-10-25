@@ -1,55 +1,56 @@
 const mongoose = require('mongoose');
 const { REGEX_URL } = require('../utils/regex');
+const { REQUIRED_FIELD_ERR, REQUIRED_URL_ERR } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   director: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   duration: {
     type: Number,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   year: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   description: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   image: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
     validate: {
       validator(str) {
         return REGEX_URL.test(str);
       },
-      message: 'Введите действительный URL',
+      message: REQUIRED_URL_ERR,
     },
   },
   trailerLink: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
     validate: {
       validator(str) {
         return REGEX_URL.test(str);
       },
-      message: 'Введите действительный URL',
+      message: REQUIRED_URL_ERR,
     },
   },
   thumbnail: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
     validate: {
       validator(str) {
         return REGEX_URL.test(str);
       },
-      message: 'Введите действительный URL',
+      message: REQUIRED_URL_ERR,
     },
   },
   owner: {
@@ -59,15 +60,15 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     type: Number,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   nameRU: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
   nameEN: {
     type: String,
-    required: [true, 'Поле не может быть пустым'],
+    required: [true, REQUIRED_FIELD_ERR],
   },
 }, { versionKey: false });
 

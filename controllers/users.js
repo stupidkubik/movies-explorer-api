@@ -5,8 +5,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { JWT_SECRET, NODE_ENV } = process.env;
-const DEV_KEY = 'string';
-const SALT_ROUNDS = 10;
 
 const {
   HTTP_STATUS_OK,
@@ -17,6 +15,8 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
 const userModel = require('../models/user');
+const { DEV_KEY, SALT_ROUNDS, USER_NOT_FOUND_ERR } = require('../utils/constants');
+
 // Функция создания нового юзера
 const createUser = (req, res, next) => {
   const {
@@ -80,7 +80,7 @@ const updateUser = (req, res, next) => {
     .then((user) => res.status(HTTP_STATUS_OK).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.DocumentNotFoundError) {
-        return next(new NotFoundError('User not found'));
+        return next(new NotFoundError(USER_NOT_FOUND_ERR));
       }
       if (err instanceof mongoose.Error.ValidationError) {
         return next(new BadRequestError(err.message));

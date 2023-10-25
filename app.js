@@ -12,10 +12,12 @@ const error = require('./middlewares/error');
 const limiter = require('./middlewares/limiter');
 const router = require('./routes');
 
-const { PORT = 3003, DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
+const { PORT, NODE_ENV, DB_URL } = process.env;
+const { DEV_DB_URL } = require('./utils/constants');
+
 // Подключаем БД
 mongoose
-  .connect(DB_URL, {
+  .connect(NODE_ENV === 'production' ? DB_URL : DEV_DB_URL, {
     useNewUrlParser: true,
   });
 // Создаем сервер
