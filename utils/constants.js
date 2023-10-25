@@ -1,4 +1,4 @@
-const DEV_DB_URL = 'mongodb://127.0.0.1:27017/testdb';
+const DEV_DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb';
 const DEV_KEY = 'string';
 const SALT_ROUNDS = 10;
 
