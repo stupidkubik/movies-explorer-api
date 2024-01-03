@@ -25,9 +25,9 @@ router.post('/', celebrate({
   }),
 }), createMovie);
 // Удаляем фильм по id из БД
-router.delete('/:movie_id', celebrate({
+router.delete('/:_id', celebrate({
   params: Joi.object().keys({
-    movie_id: Joi.string().length(24).hex().required(),
+    _id: Joi.string().length(24).hex().required(),
   }),
 }), deleteMovie);
 

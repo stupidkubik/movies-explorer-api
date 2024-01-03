@@ -58,7 +58,7 @@ const getMovies = (req, res, next) => movieModel.find({ owner: req.user._id })
   .catch(next);
 // Функция удаления фильма по id из БД
 const deleteMovie = (req, res, next) => movieModel
-  .findById(req.params.movie_id)
+  .findById(req.params._id)
   .then((movie) => {
     if (!movie) throw new NotFoundError('Movie not found');
     if (!movie.owner.equals(req.user._id)) throw new ForbiddenError(INVALID_USER_ERR);
