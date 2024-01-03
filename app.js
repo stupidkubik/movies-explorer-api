@@ -23,18 +23,19 @@ mongoose
 // Создаем сервер
 const app = express();
 
-const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'http://mydomain.nomoredomainsrocks.ru',
-    'https://mydomain.nomoredomainsrocks.ru'],
-  optionsSuccessStatus: 200,
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: [
+//     'http://localhost:3000',
+//     'http://mydomain.nomoredomainsrocks.ru',
+//     'https://mydomain.nomoredomainsrocks.ru'],
+//   optionsSuccessStatus: 200,
+//   credentials: true,
+// };
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 
 app.disable('x-powered-by');
 app.use(helmet());
